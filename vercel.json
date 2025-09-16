@@ -89,7 +89,8 @@
       "avatars.githubusercontent.com"
     ],
     "minimumCacheTTL": 60,
-    "formats": ["image/webp"]
+    "formats": ["image/webp"],
+    "sizes": [16, 32, 48, 64, 96, 128, 256, 384]
   },
   "regions": ["bom1"],
   "functions": {
