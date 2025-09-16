@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Calendar, Clock, MapPin, Phone, FileText, MessageCircle, Send, Bot, User, ArrowLeft } from 'lucide-react'
 import { useAppContext } from '../context/AppContext'
 import { analyzeSymptoms } from '../services/geminiService'
-<<<<<<< HEAD
-import { getChatResponse } from '../services/chatService'
-=======
 import { generateChatResponse, getQuickSuggestions } from '../services/chatService'
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
 import HealthChatbot from './HealthChatbot'
 
 interface AppointmentBookingPageProps {

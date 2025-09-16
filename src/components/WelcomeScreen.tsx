@@ -58,73 +58,13 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
       // Request notification permission
       await requestNotificationPermission()
       
-<<<<<<< HEAD
-      // Set emergency situation
-=======
       // Set emergency situation immediately
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
       dispatch({ 
         type: 'SET_SITUATION', 
         payload: { situation: 'emergency', severity: 9 } 
       })
       dispatch({ type: 'SET_USER_INPUT', payload: 'Emergency - need immediate help' })
       
-<<<<<<< HEAD
-      // Get user location with high accuracy for emergency
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const location = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-            dispatch({ type: 'SET_LOCATION', payload: location })
-            
-            // Automatically book ambulance after location
-            bookAmbulance(
-              location,
-              'Emergency',
-              'Critical condition - immediate help needed',
-              'Critical',
-              '9'
-            )
-          },
-          (error) => {
-            console.error('Location error:', error)
-            // Fallback - still book ambulance with approximate location
-            const fallbackLocation = { lat: 28.7041, lng: 77.1025 } // Delhi
-            dispatch({ type: 'SET_LOCATION', payload: fallbackLocation })
-            bookAmbulance(
-              fallbackLocation,
-              'Emergency',
-              'Critical condition - immediate help needed',
-              'Critical', 
-              '9'
-            )
-          },
-          { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-        )
-      } else {
-        // Location not supported fallback
-        const fallbackLocation = { lat: 28.7041, lng: 77.1025 }
-        dispatch({ type: 'SET_LOCATION', payload: fallbackLocation })
-        bookAmbulance(
-          fallbackLocation,
-          'Emergency',
-          'Critical condition - immediate help needed',
-          'Critical',
-          '9'
-        )
-      }
-      
-      // Skip analysis/hospitals - go directly to ambulance tracking
-      onNext('ambulance')
-    } catch (error) {
-      console.error('Emergency booking error:', error)
-      onNext('ambulance') // Still proceed to ambulance page
-    } finally {
-      setIsBookingEmergency(false)
-=======
       // Get high-priority location
       let location = state.userLocation
       try {
@@ -136,6 +76,11 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
         dispatch({ type: 'SET_LOCATION', payload: location })
       } catch (error) {
         console.warn('Could not get emergency location:', error)
+        // Fallback location if emergency location fails
+        if (!location) {
+          location = { lat: 28.7041, lng: 77.1025 } // Delhi fallback
+          dispatch({ type: 'SET_LOCATION', payload: location })
+        }
       }
       
       // Book ambulance immediately
@@ -170,12 +115,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
       })
       dispatch({ type: 'SET_USER_INPUT', payload: 'Emergency - need immediate help' })
       onNext()
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
     }
   }
 
   const handleInputSubmit = (input: string) => {
-<<<<<<< HEAD
     if (input.trim()) {
       dispatch({ type: 'SET_USER_INPUT', payload: input.trim() })
       
@@ -196,10 +139,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
         onNext() // Normal flow to analysis
       }
     }
-=======
-    dispatch({ type: 'SET_USER_INPUT', payload: input })
-    onNext()
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   }
 
   return (
@@ -421,11 +360,8 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
                   userSymptoms: state.userInput,
                   selectedHospital: state.selectedHospital
                 }}
-<<<<<<< HEAD
                 onSymptomsExtracted={handleInputSubmit}
                 showProgressButton={true}
-=======
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
               />
             )}
           </div>

@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 import React, { useState, useRef, useEffect } from 'react'
 import { Send, Mic, MicOff, Bot, User, Loader2 } from 'lucide-react'
-import { getChatResponse } from '../services/chatService'
-=======
-import React, { useState, useEffect, useRef } from 'react'
-import { Send, Bot, User, Mic, MicOff, Loader2 } from 'lucide-react'
 import { generateChatResponse, getQuickSuggestions } from '../services/chatService'
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
 import { useAppContext } from '../context/AppContext'
 
 interface Message {
@@ -26,24 +20,17 @@ interface HealthChatbotProps {
     selectedHospital?: any
     appointmentStatus?: string
   }
-<<<<<<< HEAD
   onSymptomsExtracted?: (symptoms: string) => void
   showProgressButton?: boolean
-=======
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
 }
 
 const HealthChatbot: React.FC<HealthChatbotProps> = ({ 
   variant = 'full', 
   placeholder = "Ask me anything about your health...",
   welcomeMessage = "Hi! I'm your ZeroWait Health Assistant. How can I help you today?",
-<<<<<<< HEAD
   context = {},
   onSymptomsExtracted,
   showProgressButton = false
-=======
-  context = {}
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
 }) => {
   const { state } = useAppContext()
   const [messages, setMessages] = useState<Message[]>([])
@@ -52,10 +39,7 @@ const HealthChatbot: React.FC<HealthChatbotProps> = ({
   const [isListening, setIsListening] = useState(false)
   const [quickSuggestions, setQuickSuggestions] = useState<string[]>([])
   const [recognition, setRecognition] = useState<any>(null)
-<<<<<<< HEAD
   const [extractedSymptoms, setExtractedSymptoms] = useState<string>('')
-=======
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -69,11 +53,7 @@ const HealthChatbot: React.FC<HealthChatbotProps> = ({
       type: 'general'
     }
     setMessages([welcomeMsg])
-<<<<<<< HEAD
-    setQuickSuggestions(['How can I help?', 'Tell me about symptoms', 'Book appointment', 'Emergency help'])
-=======
     setQuickSuggestions(getQuickSuggestions('general'))
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   }, [welcomeMessage])
 
   // Initialize speech recognition
@@ -133,28 +113,6 @@ const HealthChatbot: React.FC<HealthChatbotProps> = ({
         conversationHistory
       }
 
-<<<<<<< HEAD
-      const response = await getChatResponse(text, context)
-
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: response,
-        sender: 'bot',
-        timestamp: new Date(),
-        type: 'general'
-      }
-
-      setMessages(prev => [...prev, botMessage])
-      setQuickSuggestions(['Thank you', 'Tell me more', 'What should I do next?', 'Book appointment'])
-      
-      // Extract symptoms if medical conversation
-      if (text.toLowerCase().includes('pain') || text.toLowerCase().includes('symptoms')) {
-        const symptomsFromChat = extractSymptomsFromConversation([...messages, userMessage, botMessage])
-        if (symptomsFromChat) {
-          setExtractedSymptoms(symptomsFromChat)
-        }
-      }
-=======
       const response = await generateChatResponse(text.trim(), chatContext)
 
       const botMessage: Message = {
@@ -167,7 +125,14 @@ const HealthChatbot: React.FC<HealthChatbotProps> = ({
 
       setMessages(prev => [...prev, botMessage])
       setQuickSuggestions(getQuickSuggestions(response.type))
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
+      
+      // Extract symptoms if medical conversation
+      if (text.toLowerCase().includes('pain') || text.toLowerCase().includes('symptoms')) {
+        const symptomsFromChat = extractSymptomsFromConversation([...messages, userMessage, botMessage])
+        if (symptomsFromChat) {
+          setExtractedSymptoms(symptomsFromChat)
+        }
+      }
     } catch (error) {
       console.error('Chat error:', error)
       const errorMessage: Message = {
@@ -195,7 +160,6 @@ const HealthChatbot: React.FC<HealthChatbotProps> = ({
     }
   }
 
-<<<<<<< HEAD
   const extractSymptomsFromConversation = (messages: Message[]): string => {
     const userMessages = messages
       .filter(m => m.sender === 'user')
@@ -217,8 +181,6 @@ const HealthChatbot: React.FC<HealthChatbotProps> = ({
     }
   }
 
-=======
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   const handleQuickSuggestion = (suggestion: string) => {
     handleSendMessage(suggestion)
   }
@@ -316,7 +278,6 @@ const HealthChatbot: React.FC<HealthChatbotProps> = ({
         </div>
       )}
 
-<<<<<<< HEAD
       {/* Progress Button */}
       {showProgressButton && extractedSymptoms && (
         <div className="px-4 pb-2">
@@ -332,8 +293,6 @@ const HealthChatbot: React.FC<HealthChatbotProps> = ({
         </div>
       )}
 
-=======
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
       {/* Input */}
       <div className="border-t p-4">
         <div className="flex items-center space-x-2">

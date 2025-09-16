@@ -7,10 +7,7 @@ interface HospitalCardProps {
   hospital: Hospital
   situation: 'emergency' | 'normal' | null
   onSelect: () => void
-<<<<<<< HEAD
-=======
   onAppointment: () => void
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   userLocation: Location
 }
 
@@ -18,10 +15,7 @@ const HospitalCard: React.FC<HospitalCardProps> = ({
   hospital, 
   situation, 
   onSelect, 
-<<<<<<< HEAD
-=======
   onAppointment,
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   userLocation 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -37,15 +31,11 @@ const HospitalCard: React.FC<HospitalCardProps> = ({
   const phoneUrl = buildGoogleSearchLink(`${hospital.name} phone contact`)
 
   const handleBooking = () => {
-<<<<<<< HEAD
-    onSelect() // Always go to appointment booking (simplified flow)
-=======
     if (situation === 'emergency') {
       onSelect() // Emergency ambulance booking
     } else {
       onAppointment() // Normal appointment booking
     }
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   }
 
   return (

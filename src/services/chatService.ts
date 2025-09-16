@@ -3,130 +3,40 @@ interface ChatResponse {
   type: 'general' | 'medical' | 'appointment' | 'emergency'
 }
 
-<<<<<<< HEAD
-const buildPrompt = (message: string, context?: any): string => {
-  const basePrompt = `You are a helpful medical assistant for ZeroWait Emergency healthcare app. 
-  Provide concise, helpful responses. Keep responses under 100 words.
-  
-  User message: ${message}`
-  
-  if (context?.userSymptoms) {
-    return basePrompt + `\n\nContext: User has described symptoms: ${context.userSymptoms}`
-  }
-  
-  return basePrompt
-}
-
-const determineConversationType = (input: string): 'general' | 'medical' | 'appointment' | 'emergency' => {
-  const medicalKeywords = ['pain', 'sick', 'symptoms', 'hurt', 'fever', 'nausea', 'dizzy', 'cough', 'ache', 'bleeding']
-  const emergencyKeywords = ['emergency', 'urgent', 'critical', 'severe', 'heart attack', 'stroke', 'unconscious']
-  const appointmentKeywords = ['appointment', 'book', 'schedule', 'visit', 'consultation']
-  
+const determineConversationType = (input: string): ChatResponse['type'] => {
   const lowerInput = input.toLowerCase()
   
-  if (emergencyKeywords.some(keyword => lowerInput.includes(keyword))) {
-    return 'emergency'
-  } else if (medicalKeywords.some(keyword => lowerInput.includes(keyword))) {
-    return 'medical'
-  } else if (appointmentKeywords.some(keyword => lowerInput.includes(keyword))) {
+  if (lowerInput.includes('appointment') || lowerInput.includes('booking') || lowerInput.includes('doctor')) {
     return 'appointment'
+  }
+  
+  const medicalTerms = [
+    'pain', 'hurt', 'ache', 'symptom', 'medicine', 'treatment', 'diagnosis',
+    'fever', 'headache', 'cough', 'cold', 'sick', 'illness', 'health'
+  ]
+  
+  if (medicalTerms.some(term => lowerInput.includes(term))) {
+    return 'medical'
+  }
+  
+  const emergencyTerms = [
+    'emergency', 'urgent', 'severe', 'critical', 'ambulance', 'help'
+  ]
+  
+  if (emergencyTerms.some(term => lowerInput.includes(term))) {
+    return 'emergency'
   }
   
   return 'general'
 }
 
-const getFallbackResponse = (type: string): string => {
-  const responses = {
-    'medical': "I understand you're looking for medical guidance. For accurate diagnosis and treatment, I recommend consulting with a healthcare professional. In the meantime, please monitor your symptoms and seek immediate care if they worsen.",
-    'emergency': "If this is a medical emergency, please call emergency services immediately or use our emergency ambulance booking. Your safety is our top priority.",
-    'appointment': "I can help you book an appointment. Please use our appointment booking feature to schedule a visit with a healthcare provider at your preferred time.",
-    'general': "I'm here to help with your healthcare questions. Feel free to ask about symptoms, appointments, or general health concerns.",
-    'error': "I'm sorry, I'm having trouble connecting right now. Please try again in a moment, or contact our support team if the issue persists.",
-    'network': "There seems to be a connection issue. Please check your internet connection and try again.",
-    'timeout': "The request is taking longer than expected. Please try again with a shorter message.",
-    'rate_limit': "I'm receiving too many requests right now. Please wait a moment and try again.",
-    'server_error': "Our AI assistant is temporarily unavailable. Please try again shortly or contact support for immediate assistance."
-  }
-  
-  return responses[type as keyof typeof responses] || responses['general']
-}
-
-export const getChatResponse = async (message: string, context?: any): Promise<string> => {
-  try {
-    const API_KEY = 'AIzaSyBvmNPHDOWZhsZKQK1boaFMHJ2xJVqAyg8' // Replace with env variable
-    
-    if (!API_KEY) {
-      throw new Error('Gemini API key not configured')
-    }
-
-    const prompt = buildPrompt(message, context)
-    const conversationType = determineConversationType(message)
-    
-    // Add timeout to prevent hanging requests
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
-
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: prompt
-          }]
-        }],
-        generationConfig: {
-          temperature: conversationType === 'medical' ? 0.3 : 0.7,
-          maxOutputTokens: 200,
-        }
-      }),
-      signal: controller.signal
-    })
-
-    clearTimeout(timeoutId)
-
-    if (!response.ok) {
-      if (response.status === 429) {
-        return getFallbackResponse('rate_limit')
-      } else if (response.status >= 500) {
-        return getFallbackResponse('server_error')
-      } else {
-        throw new Error(`API request failed: ${response.status}`)
-      }
-    }
-
-    const data = await response.json()
-    const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text
-    
-    if (!aiResponse || aiResponse.trim() === '') {
-      return getFallbackResponse(conversationType)
-    }
-    
-    return aiResponse
-    
-  } catch (error) {
-    console.error('Chat service error:', error)
-    
-    if (error instanceof Error) {
-      if (error.name === 'AbortError') {
-        return getFallbackResponse('timeout')
-      } else if (error.message.includes('fetch')) {
-        return getFallbackResponse('network')
-      }
-    }
-    
-    return getFallbackResponse('error')
-  }
-=======
 export const generateChatResponse = async (input: string, context: {
   userSymptoms?: string
   selectedHospital?: any
   appointmentStatus?: string
   conversationHistory?: string[]
 }): Promise<ChatResponse> => {
-  const GEMINI_API_KEY = 'AIzaSyCbubGrkxoLO4gBOvn-eClA8QEvqCyOf3k'
+  const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || 'AIzaSyCbubGrkxoLO4gBOvn-eClA8QEvqCyOf3k'
   
   // Determine conversation type
   const conversationType = determineConversationType(input)
@@ -169,34 +79,6 @@ export const generateChatResponse = async (input: string, context: {
     console.error('Chat API error:', error)
     return generateFallbackResponse(input, conversationType)
   }
-}
-
-const determineConversationType = (input: string): ChatResponse['type'] => {
-  const lowerInput = input.toLowerCase()
-  
-  if (lowerInput.includes('appointment') || lowerInput.includes('booking') || lowerInput.includes('doctor')) {
-    return 'appointment'
-  }
-  
-  const medicalTerms = [
-    'pain', 'hurt', 'ache', 'symptom', 'medicine', 'treatment', 'diagnosis',
-    'fever', 'headache', 'cough', 'cold', 'sick', 'illness', 'health'
-  ]
-  
-  if (medicalTerms.some(term => lowerInput.includes(term))) {
-    return 'medical'
-  }
-  
-  const emergencyTerms = [
-    'emergency', 'urgent', 'severe', 'critical', 'ambulance', 'help'
-  ]
-  
-  if (emergencyTerms.some(term => lowerInput.includes(term))) {
-    return 'emergency'
-  }
-  
-  return 'general'
->>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
 }
 
 const buildConversationPrompt = (input: string, context: any, type: ChatResponse['type']): string => {
