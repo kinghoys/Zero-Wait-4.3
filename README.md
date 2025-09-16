@@ -1,6 +1,7 @@
 <div align="center">
   
-  ![ZeroWait Banner](https://i.imgur.com/8Km9tLL.png)
+  ![ZeroWait Banner](<img width="989" height="983" alt="Screenshot 2025-09-16 185441" src="https://github.com/user-attachments/assets/66310e97-df0c-4ed0-93ff-a1470dfe0b20" />
+)
   
   # 🚀 ZeroWait 2.0
   ### <span style="background: linear-gradient(90deg, #4F46E5, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">The Future of Emergency Healthcare</span>
@@ -36,9 +37,6 @@
 
 ## ✨ Key Features
 
-<div align="center">
-  <img src="https://i.imgur.com/JqYeXvn.png" alt="Feature Showcase" width="100%"/>
-</div>
 
 ### 🏥 **Patient-Centric Care**
 <details>
@@ -172,9 +170,6 @@ npm run dev
 
 ## 🏗 System Architecture
 
-<div align="center">
-  <img src="https://i.imgur.com/8XyYQ9c.png" alt="System Architecture" width="90%"/>
-</div>
 
 ### 🧩 Tech Stack
 
