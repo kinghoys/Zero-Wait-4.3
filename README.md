@@ -309,7 +309,24 @@ Thanks to these amazing people who contributed to this project:
       <br />
       <span title="Code">💻</span> <span title="Documentation">📖</span> <span title="Ideas">🤔</span>
     </td>
-    <!-- Add more contributors here -->
+    <td align="center">
+      <a href="https://github.com/hamshika1">
+        <img src="https://github.com/hamshika1.png" width="100px;" alt=""/>
+        <br />
+        <sub><b>hamshika1</b></sub>
+      </a>
+      <br />
+      <span title="Code">💻</span> <span title="Design">🎨</span> <span title="Bug fixes">🐛</span>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Ambica-Singh-Rajput">
+        <img src="https://github.com/Ambica-Singh-Rajput.png" width="100px;" alt=""/>
+        <br />
+        <sub><b>Ambica-Singh-Rajput</b></sub>
+      </a>
+      <br />
+      <span title="Code">💻</span> <span title="Testing">🧪</span> <span title="Documentation">📖</span>
+    </td>
   </tr>
 </table>
 
@@ -327,8 +344,6 @@ Thanks to these amazing people who contributed to this project:
 <div align="center">
   Made with ❤️ by the ZeroWait Team | © 2025 ZeroWait Technologies
   
-  [![Star on GitHub](https://img.shields.io/github/stars/HackVibe2-2025/Agents-4.3?style=social)](https://github.com/HackVibe2-2025/Agents-4.3/stargazers)
+  [![Star on GitHub](https://img.shields.io/github/stars/kinghoys/Zero-Wait-4.3?style=social)](https://github.com/kinghoys/Zero-Wait-4.3/stargazers)
   [![Twitter Follow](https://img.shields.io/twitter/follow/zerowait_health?style=social)](https://twitter.com/zerowait_health)
 </div>
-#   Z e r o - W a i t - 4 . 3  
- 
