@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { 
   doc, 
   collection, 
@@ -15,6 +16,12 @@ import { db } from '../config/firebase'
 export interface Notification {
   id?: string
   type: 'success' | 'error' | 'warning' | 'info' | 'emergency' | 'discharge' | 'preparation'
+=======
+// Notification service for emergency alerts and confirmations
+export interface Notification {
+  id: string
+  type: 'success' | 'error' | 'warning' | 'info' | 'emergency'
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   title: string
   message: string
   timestamp: Date
@@ -25,6 +32,7 @@ export interface Notification {
     action: () => void
     style?: 'primary' | 'secondary' | 'danger'
   }>
+<<<<<<< HEAD
   // Discharge-specific fields
   targetUserType?: 'pharmacy' | 'nurse' | 'admin' | 'family' | 'all'
   targetUserId?: string
@@ -84,6 +92,8 @@ export interface DischargeRequest {
   overallStatus: 'pending' | 'in-progress' | 'ready' | 'completed' | 'cancelled'
   createdAt: Date
   updatedAt: Date
+=======
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
 }
 
 // Browser notification support
@@ -255,6 +265,7 @@ export const formatEmergencyMessage = (
     shortMessage: `Emergency at ${locationText}`
   }
 }
+<<<<<<< HEAD
 
 // Discharge-related notification functions
 export const createDischargeRequest = async (dischargeData: Omit<DischargeRequest, 'id' | 'createdAt' | 'updatedAt'>) => {
@@ -472,3 +483,5 @@ export const checkDischargeReadiness = async (dischargeId: string) => {
     return { success: false, error: error.message }
   }
 }
+=======
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf

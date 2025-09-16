@@ -58,13 +58,18 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
       // Request notification permission
       await requestNotificationPermission()
       
+<<<<<<< HEAD
       // Set emergency situation
+=======
+      // Set emergency situation immediately
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
       dispatch({ 
         type: 'SET_SITUATION', 
         payload: { situation: 'emergency', severity: 9 } 
       })
       dispatch({ type: 'SET_USER_INPUT', payload: 'Emergency - need immediate help' })
       
+<<<<<<< HEAD
       // Get user location with high accuracy for emergency
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -119,10 +124,58 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
       onNext('ambulance') // Still proceed to ambulance page
     } finally {
       setIsBookingEmergency(false)
+=======
+      // Get high-priority location
+      let location = state.userLocation
+      try {
+        const position = await requestEmergencyLocation()
+        location = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+        dispatch({ type: 'SET_LOCATION', payload: location })
+      } catch (error) {
+        console.warn('Could not get emergency location:', error)
+      }
+      
+      // Book ambulance immediately
+      const booking = await bookAmbulance(
+        location,
+        'Nearest Emergency Hospital',
+        'Emergency Location',
+        'Emergency - need immediate help',
+        'Unknown condition - requires assessment'
+      )
+      
+      // Store booking in state
+      dispatch({ type: 'SET_AMBULANCE_BOOKING', payload: booking })
+      
+      // Show success notification
+      const notification = showBookingConfirmation(booking.ambulanceId, `${booking.estimatedArrival} minutes`)
+      
+      // Navigate directly to ambulance tracking
+      setTimeout(() => {
+        setIsBookingEmergency(false)
+        onNext('ambulance') // Go directly to ambulance page
+      }, 2000)
+      
+    } catch (error) {
+      console.error('Emergency booking failed:', error)
+      setIsBookingEmergency(false)
+      
+      // Fallback to normal flow
+      dispatch({ 
+        type: 'SET_SITUATION', 
+        payload: { situation: 'emergency', severity: 8 } 
+      })
+      dispatch({ type: 'SET_USER_INPUT', payload: 'Emergency - need immediate help' })
+      onNext()
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
     }
   }
 
   const handleInputSubmit = (input: string) => {
+<<<<<<< HEAD
     if (input.trim()) {
       dispatch({ type: 'SET_USER_INPUT', payload: input.trim() })
       
@@ -143,6 +196,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
         onNext() // Normal flow to analysis
       }
     }
+=======
+    dispatch({ type: 'SET_USER_INPUT', payload: input })
+    onNext()
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   }
 
   return (
@@ -364,8 +421,11 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNext }) => {
                   userSymptoms: state.userInput,
                   selectedHospital: state.selectedHospital
                 }}
+<<<<<<< HEAD
                 onSymptomsExtracted={handleInputSubmit}
                 showProgressButton={true}
+=======
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
               />
             )}
           </div>

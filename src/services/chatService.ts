@@ -3,6 +3,7 @@ interface ChatResponse {
   type: 'general' | 'medical' | 'appointment' | 'emergency'
 }
 
+<<<<<<< HEAD
 const buildPrompt = (message: string, context?: any): string => {
   const basePrompt = `You are a helpful medical assistant for ZeroWait Emergency healthcare app. 
   Provide concise, helpful responses. Keep responses under 100 words.
@@ -118,6 +119,84 @@ export const getChatResponse = async (message: string, context?: any): Promise<s
     
     return getFallbackResponse('error')
   }
+=======
+export const generateChatResponse = async (input: string, context: {
+  userSymptoms?: string
+  selectedHospital?: any
+  appointmentStatus?: string
+  conversationHistory?: string[]
+}): Promise<ChatResponse> => {
+  const GEMINI_API_KEY = 'AIzaSyCbubGrkxoLO4gBOvn-eClA8QEvqCyOf3k'
+  
+  // Determine conversation type
+  const conversationType = determineConversationType(input)
+  
+  try {
+    const prompt = buildConversationPrompt(input, context, conversationType)
+    
+    const response = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-goog-api-key': GEMINI_API_KEY
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: prompt }]
+          }]
+        })
+      }
+    )
+
+    const data = await response.json()
+    
+    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+      let aiResponse = data.candidates[0].content.parts[0].text
+      
+      // Clean up the response
+      aiResponse = aiResponse.replace(/\*\*/g, '').replace(/\*/g, '').trim()
+      
+      return {
+        message: aiResponse,
+        type: conversationType
+      }
+    }
+    
+    return generateFallbackResponse(input, conversationType)
+  } catch (error) {
+    console.error('Chat API error:', error)
+    return generateFallbackResponse(input, conversationType)
+  }
+}
+
+const determineConversationType = (input: string): ChatResponse['type'] => {
+  const lowerInput = input.toLowerCase()
+  
+  if (lowerInput.includes('appointment') || lowerInput.includes('booking') || lowerInput.includes('doctor')) {
+    return 'appointment'
+  }
+  
+  const medicalTerms = [
+    'pain', 'hurt', 'ache', 'symptom', 'medicine', 'treatment', 'diagnosis',
+    'fever', 'headache', 'cough', 'cold', 'sick', 'illness', 'health'
+  ]
+  
+  if (medicalTerms.some(term => lowerInput.includes(term))) {
+    return 'medical'
+  }
+  
+  const emergencyTerms = [
+    'emergency', 'urgent', 'severe', 'critical', 'ambulance', 'help'
+  ]
+  
+  if (emergencyTerms.some(term => lowerInput.includes(term))) {
+    return 'emergency'
+  }
+  
+  return 'general'
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
 }
 
 const buildConversationPrompt = (input: string, context: any, type: ChatResponse['type']): string => {

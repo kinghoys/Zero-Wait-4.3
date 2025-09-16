@@ -10,11 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "firebase": "^12.2.1",
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+=======
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "lucide-react": "^0.263.1"
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

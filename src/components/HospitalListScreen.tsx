@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { useAuth } from '../context/AuthContext'
@@ -29,6 +30,31 @@ const HospitalListScreen: React.FC<HospitalListScreenProps> = ({ onSelect }) => 
     
     // Emergency or already logged in - proceed
     onSelect(hospital)
+=======
+import React, { useEffect, useState } from 'react'
+import { MapPin, Filter, ArrowLeft } from 'lucide-react'
+import { useAppContext } from '../context/AppContext'
+import HospitalCard from './HospitalCard'
+
+interface HospitalListScreenProps {
+  onSelect: () => void
+  onAppointment: () => void
+}
+
+const HospitalListScreen: React.FC<HospitalListScreenProps> = ({ onSelect, onAppointment }) => {
+  const { state, dispatch } = useAppContext()
+  const [sortBy, setSortBy] = useState<'distance' | 'cost' | 'rating'>('distance')
+  const [showFilters, setShowFilters] = useState(false)
+
+  const handleHospitalSelect = (hospital: any) => {
+    dispatch({ type: 'SELECT_HOSPITAL', payload: hospital })
+    onSelect()
+  }
+
+  const handleAppointmentBooking = (hospital: any) => {
+    dispatch({ type: 'SELECT_HOSPITAL', payload: hospital })
+    onAppointment()
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
   }
 
   const sortedHospitals = [...state.hospitals].sort((a, b) => {
@@ -119,6 +145,10 @@ const HospitalListScreen: React.FC<HospitalListScreenProps> = ({ onSelect }) => 
                 hospital={hospital}
                 situation={state.situation}
                 onSelect={() => handleHospitalSelect(hospital)}
+<<<<<<< HEAD
+=======
+                onAppointment={() => handleAppointmentBooking(hospital)}
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
                 userLocation={state.userLocation}
               />
             </div>
@@ -137,6 +167,7 @@ const HospitalListScreen: React.FC<HospitalListScreenProps> = ({ onSelect }) => 
           </div>
         )}
 
+<<<<<<< HEAD
         {/* Login Modal for Regular Appointments */}
         <AuthModal
           isOpen={showLoginModal}
@@ -150,6 +181,8 @@ const HospitalListScreen: React.FC<HospitalListScreenProps> = ({ onSelect }) => 
           }}
         />
 
+=======
+>>>>>>> 06e16358e89ab30341c4ea3effa28a7b2c1474cf
         {/* Loading state */}
         {state.hospitals.length === 0 && (
           <div className="text-center py-12">
