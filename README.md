@@ -293,6 +293,28 @@ We're building the future of healthcare together! Here's how you can help:
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
+## 👥 Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START -->
+Thanks to these amazing people who contributed to this project:
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/kinghoys">
+        <img src="https://github.com/kinghoys.png" width="100px;" alt=""/>
+        <br />
+        <sub><b>kinghoys</b></sub>
+      </a>
+      <br />
+      <span title="Code">💻</span> <span title="Documentation">📖</span> <span title="Ideas">🤔</span>
+    </td>
+    <!-- Add more contributors here -->
+  </tr>
+</table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## 🙏 Acknowledgments
 
 - **Medical Advisors** - For their invaluable healthcare insights
