@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -20,10 +14,6 @@
       "dest": "/"
     }
   ],
-  "env": {
-    "NODE_ENV": "production",
-    "NEXT_TELEMETRY_DISABLED": "1"
-  },
   "build": {
     "env": {
       "NEXT_PUBLIC_VERCEL_ENV": "production"
@@ -116,11 +106,10 @@
       "maxDuration": 30
     }
   },
-  "crons": {
-    "schedule": "0 */6 * * *",
-    "path": "/api/cron"
-  },
-  "env": {
-    "NEXT_PUBLIC_VERCEL_URL": "https://zerowait.vercel.app"
-  }
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "0 */6 * * *"
+    }
+  ]
 }
